@@ -18,35 +18,13 @@ createApp({
     }
   },
   
-  //生命週期 mounted() {}
-  //抓出二種modal動元素#productModal #delProductModal，並加入keyboard屬性
-  mounted() {
-    productModal = new bootstrap.Modal(document.getElementById('productModal'), {
-      keyboard: false,  //防止按到esc不小心關閉model
-      backdrop: 'static' //指定static在單擊時不關閉模式的背景
-    });
-
-    delProductModal = new bootstrap.Modal(document.getElementById('delProductModal'), {
-      keyboard: false,
-      backdrop: 'static'  
-    });
-
-    // 取出 Token
-    const token = document.cookie.replace(/(?:(?:^|.*;\s*)hexToken\s*=\s*([^;]*).*$)|^.*$/, '$1');
-    axios.defaults.headers.common.Authorization = token;
-    
-    //執行驗證登入Token，執行checkApi()  
-    this.checkApi();        
-  },
-  
-  
   methods: {
     //checkApi() {}，用post，宣告url，失敗時轉址回login頁面
     checkApi() {
       const url = `${this.url}/api/user/check`;
       axios.post(url)
         .then(() => {
-          this.getData();
+          this.getData();          
         })
         .catch((err) => {
           alert(err.data.message)
@@ -55,32 +33,36 @@ createApp({
     },
     
 
-    // get取得產品列表 getData() {}，宣告url api產品列表路徑
+    // get取得產品列表 getData() {}，宣告url api產品列表路徑，成功取得資料，失敗顯示錯誤訊息
     getData() {
       const url = `${this.url}/api/${this.path}/admin/products/all`;
       axios.get(url)
         .then((res) => {
-          this.products = res.data.products;
+          this.products = res.data.products;                               
         })
         .catch((err) => {
           alert(err.data.message);
-        })
+        })              
+    },
+
+    reverseArray() {
+      this.products.reverse();
     },
 
     // 取得新增或修改單筆資料判斷 updateProduct() {}，宣告url api路徑及一個'共用'變數指向post新增、put修改
     updateProduct() {
       let url = `${this.url}/api/${this.path}/admin/product`;
-      let http = 'post'; 
+      let httpApi = 'post'; 
 
       //if !isNew，為put修改
       if (!this.isNew) {
         url = `${this.url}/api/${this.path}/admin/product/${this.tempProduct.id}`;
-        http = 'put';
+        httpApi = 'put';
       }
 
       //post 新增資料時，要用物件包物件的寫法，照後台格式
       //axios[共用變數]共用變數(參數, 參數)
-      axios[http](url, { data: this.tempProduct })
+      axios[httpApi](url, { data: this.tempProduct })
         .then((res) => {
         alert(res.data.message);
         productModal.hide();
@@ -91,7 +73,7 @@ createApp({
         })
     },
 
-    //新增編輯共用一個openModal() {} modal，用 isNew 欄位判斷是:new, edit, delete
+    //新增編輯共用一個openModal(isNew, item) {} modal，用 isNew 欄位判斷是:new, edit, delete
     openModal(isNew, item) {
       //if isNew 等於 new，寫入新增料
       if (isNew === 'new') {
@@ -138,7 +120,32 @@ createApp({
     createImages() {
       this.tempProduct.imagesUrl = [];
       this.tempProduct.imagesUrl.push('');
-    }   
+    },    
+      
+  },
+
+  //生命週期 mounted() {}
+  //抓出二種modal動元素#productModal #delProductModal，並加入keyboard、backdrop屬性
+  mounted() {
+    
+    productModal = new bootstrap.Modal(document.getElementById('productModal'), {
+      keyboard: false,  //防止按到esc不小心關閉model
+      backdrop: 'static' //指定static在單擊時不關閉模式的背景
+    });
+
+    delProductModal = new bootstrap.Modal(document.getElementById('delProductModal'), {
+      keyboard: false,
+      backdrop: 'static'  
+    });
+
+    
+
+    // 取出 Token
+    const token = document.cookie.replace(/(?:(?:^|.*;\s*)hexToken\s*=\s*([^;]*).*$)|^.*$/, '$1');
+    axios.defaults.headers.common.Authorization = token;
+    
+    //執行驗證登入Token，執行checkApi()  
+    this.checkApi();        
   }
   
   
