@@ -115,12 +115,7 @@ createApp({
       })
     },
 
-    //新增圖片
-    //createImages() {}，新增imagesUrl空陣列，再push出來
-    // createImages() {
-    //   this.tempProduct.imagesUrl = [];
-    //   this.tempProduct.imagesUrl.push('');
-    // },    
+    
       
   },
 
