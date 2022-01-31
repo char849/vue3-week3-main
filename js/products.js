@@ -1,8 +1,8 @@
 import { createApp } from 'https://cdnjs.cloudflare.com/ajax/libs/vue/3.0.9/vue.esm-browser.js';
 
 //宣告productModal、delProductModal空值或用null(有被賦予值，之後清空值用途)
-let productModal = '';
-let delProductModal = '';
+let productModal = null;
+let delProductModal = null;
 
 //加入data欄位:url path products isNew tempProduct:{imagesUrl:[]}
 createApp({
@@ -115,7 +115,12 @@ createApp({
       })
     },
 
-    
+    //新增圖片
+    //createImages() {}，新增imagesUrl空陣列，再push出來
+    // createImages() {
+    //   this.tempProduct.imagesUrl = [];
+    //   this.tempProduct.imagesUrl.push('');
+    // },    
       
   },
 
