@@ -96,7 +96,7 @@ createApp({
         //刪除資料是另一個 modal,所以不用 isNew 判斷
         //else if isNew 等於 delete，帶入資料後顯示 modal
 
-        //如果沒有陣列，就新增 imagesUrl 陣列並且給予一個空值
+        //預先處理:如果沒有陣列，就新增 imagesUrl 陣列並且給予一個空值
         if(!this.tempProduct.imagesUrl){
           this.tempProduct.imagesUrl = []
         }
