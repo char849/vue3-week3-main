@@ -97,9 +97,9 @@ createApp({
         //else if isNew 等於 delete，帶入資料後顯示 modal
 
         //預先處理:如果沒有陣列，就新增 imagesUrl 陣列並且給予一個空值
-        if(!this.tempProduct.imagesUrl){
-          this.tempProduct.imagesUrl = []
-        }
+        // if(!this.tempProduct.imagesUrl){
+        //   this.tempProduct.imagesUrl = []
+        // }
       } else if (isNew === 'delete') {
         this.tempProduct = JSON.parse(JSON.stringify(item));
         delProductModal.show()
