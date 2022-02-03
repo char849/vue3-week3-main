@@ -45,9 +45,9 @@ createApp({
         })              
     },
 
-    reverseArray() {
-      this.products.reverse();
-    },
+    // reverseArray() {
+    //   this.products.reverse();
+    // },
 
     // 取得新增或修改單筆資料判斷 updateProduct() {}，宣告url api路徑及一個'共用'變數指向post新增、put修改
     updateProduct() {
@@ -86,15 +86,22 @@ createApp({
         productModal.show();
         //else if isNew 等於 edit，用淺拷的方式將資料帶入
       } else if (isNew === 'edit') {
-        //用淺拷的方式比較保險,防止modal不小心關閉時資料被覆蓋        
-        this.tempProduct = { ...item };
+        //用淺拷的方式比較保險,防止modal不小心關閉時資料被覆蓋
+        //this.tempProduct = { ...item };  
+        this.tempProduct = JSON.parse(JSON.stringify(item));       
+        //深拷貝，避免 imagesUrl 陣列會有傳參考問題
         //isNew = false，為編輯的model，帶入資料後顯示modal
         this.isNew = false;
         productModal.show();
         //刪除資料是另一個 modal,所以不用 isNew 判斷
         //else if isNew 等於 delete，帶入資料後顯示 modal
+
+        //如果沒有陣列，就新增 imagesUrl 陣列並且給予一個空值
+        if(!this.tempProduct.imagesUrl){
+          this.tempProduct.imagesUrl = []
+        }
       } else if (isNew === 'delete') {
-        this.tempProduct = { ...item };
+        this.tempProduct = JSON.parse(JSON.stringify(item));
         delProductModal.show()
       }
     },
